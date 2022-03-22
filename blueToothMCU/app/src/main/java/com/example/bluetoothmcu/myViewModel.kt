@@ -63,8 +63,12 @@ class myViewModel: ViewModel() {
     }
     fun send(string:String,textView:TextView){
         viewModelScope.launch(Dispatchers.IO){
-            while(true){
-
+            try{
+                val out = string.padEnd(15,('\t')).encodeToByteArray()
+                var mmOutStream = socket?.outputStream
+                mmOutStream?.write(out)
+            }catch(e: IOException){
+                Log.i("CUSTOMA", "write failed");
             }
         }
     }

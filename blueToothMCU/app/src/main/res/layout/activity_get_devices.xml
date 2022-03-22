@@ -22,8 +22,8 @@
         android:id="@+id/tvResponse"
         android:layout_width="124dp"
         android:layout_height="56dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="188dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/button" />

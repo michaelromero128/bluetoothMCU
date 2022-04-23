@@ -3,6 +3,10 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven {
+            url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
+        }
+
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +14,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
+        }
+
     }
 }
 rootProject.name = "blueToothMCU"

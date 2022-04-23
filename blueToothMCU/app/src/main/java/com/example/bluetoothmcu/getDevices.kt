@@ -40,6 +40,9 @@ class getDevices : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResul
     private lateinit var  button: Button
     private lateinit var bluetoothService: MyBluetoothService
     private lateinit var handler: Handler
+    private lateinit var mqttClient:MqttHelper
+    var status:String = "a";
+
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("CUSTOMA","get devices activity started")
@@ -54,22 +57,56 @@ class getDevices : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResul
         val socket = device?.createRfcommSocketToServiceRecord(UUID.fromString(uuid))
         socket?.connect()
         model.socket = socket
-
         //Log.i("CUSTOMA","${socket.toString()}")
         Log.i("CUSTOMA","${device?.name}")
-
         model.listen(tv)
-
         button.setOnClickListener {
-            model.send("wuzzle\n",tv)
+            if(status == "a"){
+                model.sendLock("b");
+                button.text ="Locking"
+            }else if (status =="b"){
+                model.sendLock("a");
+                button.text ="Unlocking"
+            } else{
+                model.sendLock("a")
+                button.text="Unlocking"
+            }
+            button.setEnabled(false)
         }
-
-
-
-
-
-
+        button.text = "Lock";
+        model.startMqtt(this)
+        model.status.observe(this,{currentStatus ->
+            if(currentStatus.equals("a")){
+                button.text ="Lock"
+                status = currentStatus;
+            }else if(currentStatus.equals("b")){
+                button.text ="Unlock"
+                status = currentStatus;
+            }else{
+                button.text="Lock"
+                status = "a";
+            }
+            button.setEnabled(true)
+        })
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @SuppressLint("MissingPermission")
     @AfterPermissionGranted(BLUETOOTH_CONNECT_REQUEST)

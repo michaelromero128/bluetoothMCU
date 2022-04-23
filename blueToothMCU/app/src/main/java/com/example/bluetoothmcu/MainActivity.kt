@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
                 }
 
                 override fun onFailure(error: CharSequence?) {
-                    // Handle the failure.
+                    Log.i("CUSTOMA","no device found")
                 }
             }, null)
 

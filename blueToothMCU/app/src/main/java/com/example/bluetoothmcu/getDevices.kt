@@ -51,15 +51,15 @@ class getDevices : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResul
         device = intent.getParcelableExtra("bt")
         tv = findViewById(R.id.tvResponse)
         button = findViewById(R.id.button)
-        tv.setText("Information from bluetooth")
+        //tv.setText("Information from bluetooth")
         val model = ViewModelProvider(this)[myViewModel::class.java]
-        model.device = device
-        val socket = device?.createRfcommSocketToServiceRecord(UUID.fromString(uuid))
-        socket?.connect()
-        model.socket = socket
+        //model.device = device
+        ///val socket = device?.createRfcommSocketToServiceRecord(UUID.fromString(uuid))
+        //socket?.connect()
+        //model.socket = socket
         //Log.i("CUSTOMA","${socket.toString()}")
         Log.i("CUSTOMA","${device?.name}")
-        model.listen(tv)
+        //model.listen(tv)
         button.setOnClickListener {
             if(status == "a"){
                 model.sendLock("b");
@@ -73,8 +73,10 @@ class getDevices : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResul
             }
             button.setEnabled(false)
         }
-        button.text = "Lock";
-        model.startMqtt(this)
+        button.text = "Loading";
+        button.setEnabled(false);
+
+        model.startMqtt(this);
         model.status.observe(this,{currentStatus ->
             if(currentStatus.equals("a")){
                 button.text ="Lock"

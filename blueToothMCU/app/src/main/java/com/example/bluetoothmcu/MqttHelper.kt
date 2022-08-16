@@ -2,20 +2,23 @@ package com.example.bluetoothmcu
 
 import android.content.Context
 import android.util.Log
+import android.widget.Button
 import com.hivemq.client.mqtt.MqttClient
 import com.hivemq.client.mqtt.datatypes.MqttQos
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient
 import java.nio.charset.StandardCharsets
 
 
-class MqttHelper(context: Context,zeCallback:(String)->Unit) {
+class MqttHelper(context: Context, buttonEnable:()->Unit , zeCallback:(String)->Unit) {
 
     companion object {
         const val TAG = "CUSTOMA"
     }
     lateinit var reallyZeCallback:(String)->Unit;
     lateinit var client: Mqtt5AsyncClient
+    lateinit var zeButtonEnable:()->Unit;
     init{
+        zeButtonEnable = buttonEnable;
         reallyZeCallback = zeCallback
         client = MqttClient.builder().useMqttVersion5().identifier("android-Michael-R")
                 //.serverAddress(InetSocketAddress("1d76043bee1b4d56afd3bd5c150f4157.s1.eu.hivemq.cloud",443))
@@ -36,6 +39,7 @@ class MqttHelper(context: Context,zeCallback:(String)->Unit) {
                 Log.i(TAG, "connect threw exception${throwable.stackTraceToString()}")
             }else{
                 Log.i(TAG,"mqtt connected")
+
         }
         }
 
@@ -62,6 +66,7 @@ class MqttHelper(context: Context,zeCallback:(String)->Unit) {
                 Log.i(TAG,"subscribe messed up")
             }else{
                 Log.i(TAG,"subscribe succeded")
+                zeButtonEnable();
             }
             }
 

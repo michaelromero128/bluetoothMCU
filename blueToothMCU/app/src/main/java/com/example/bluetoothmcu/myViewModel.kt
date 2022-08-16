@@ -93,7 +93,11 @@ class myViewModel: ViewModel() {
                      }
 
                  };
-                 mqttHelper  = MqttHelper(context,callback)
+                val buttonCallBack: ()->Unit = {
+                    status.postValue("a")
+                    Log.i("CUSTOMA","status update via button call back fired")
+                }
+                 mqttHelper  = MqttHelper(context,buttonCallBack,callback)
 
             } catch (e: IOException) {
                 Log.i("CUSTOMA", "write failed");
@@ -106,18 +110,6 @@ class myViewModel: ViewModel() {
         }
     }
 
-    fun changeStatus(message:String){
-        if(message == "a"){
-            status.postValue("a")
-        }else if(message =="b"){
-            status.postValue("b")
-        }else{
-            Log.i("CUSTOMA", "invalid message received")
-            status.postValue("unknown state")
-        }
 
-
-
-    }
 
 }

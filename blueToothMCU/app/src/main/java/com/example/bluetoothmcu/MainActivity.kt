@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -39,47 +40,53 @@ class MainActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
     private val deviceManager: CompanionDeviceManager by lazy {
         getSystemService(Context.COMPANION_DEVICE_SERVICE) as CompanionDeviceManager
     }
-
+    fun getToDevices(){
+        val zeIntent = Intent(this,getDevices::class.java)
+        startActivity(zeIntent)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         layout = findViewById(R.id.main_layout)
+        val button: Button = findViewById(R.id.button)
+        button.setOnClickListener{getToDevices()}
+        getToDevices()
 
 
-        val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-        if(bluetoothAdapter == null){
+       // val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+      //  if(bluetoothAdapter == null){
             //start activity saying you need bluetooth
-        }
-        Log.i("CUSTOMA","GOT TO THIS POINT")
-        if(bluetoothAdapter != null && bluetoothAdapter?.isEnabled == false){
-            enableBT()
-        }
-        val deviceFilter: BluetoothDeviceFilter = BluetoothDeviceFilter.Builder()
-            .setNamePattern(Pattern.compile("ESP32test"))
-            .build()
+      //  }
+      //  Log.i("CUSTOMA","GOT TO THIS POINT")
+       // if(bluetoothAdapter != null && bluetoothAdapter?.isEnabled == false){
+            //enableBT()
+       // }
+       // val deviceFilter: BluetoothDeviceFilter = BluetoothDeviceFilter.Builder()
+       //     .setNamePattern(Pattern.compile("ESP32test"))
+        //    .build()
 
         // The argument provided in setSingleDevice() determines whether a single
         // device name or a list of them appears.
-        val pairingRequest: AssociationRequest = AssociationRequest.Builder()
-            .addDeviceFilter(deviceFilter)
-            .setSingleDevice(true)
-            .build()
+       // val pairingRequest: AssociationRequest = AssociationRequest.Builder()
+       //     .addDeviceFilter(deviceFilter)
+      //      .setSingleDevice(true)
+      //      .build()
 
         // When the app tries to pair with a Bluetooth device, show the
         // corresponding dialog box to the user.
-        deviceManager.associate(pairingRequest,
-            object : CompanionDeviceManager.Callback() {
-
-                override fun onDeviceFound(chooserLauncher: IntentSender) {
-                    Log.i("CUSTOMA","devicefound")
-                    startIntentSenderForResult(chooserLauncher,
-                        SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0)
-                }
-
-                override fun onFailure(error: CharSequence?) {
-                    Log.i("CUSTOMA","no device found")
-                }
-            }, null)
+//        deviceManager.associate(pairingRequest,
+//            object : CompanionDeviceManager.Callback() {
+//
+//                override fun onDeviceFound(chooserLauncher: IntentSender) {
+//                    Log.i("CUSTOMA","devicefound")
+//                    startIntentSenderForResult(chooserLauncher,
+//                        SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0)
+//                }
+//
+//                override fun onFailure(error: CharSequence?) {
+//                    Log.i("CUSTOMA","no device found")
+//                }
+//            }, null)
 
     }
     @SuppressLint("MissingPermission")
